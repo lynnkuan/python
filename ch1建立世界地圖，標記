@@ -103,6 +103,16 @@ worldmap.add('Over 一億',dict1)
 worldmap.add('Under 一億',dict2)
 worldmap.render_to_file(r'C:\Users\yifun\Desktop\python_code\map.svg')
 
+---------------------------------------------------------------------------------
+# xml 資料內容用python去解析
+import xmltodict
+
+with open(r'C:\Users\yifun\Desktop\讀者資源\ch1\myxml.xml',encoding = 'utf-8') as f:
+    txt = xmltodict.parse(f.read())
+
+print(txt,'\n') 
+print(txt['深智數位']['業務部']['國外']['@主管'])
+
 
 
 
