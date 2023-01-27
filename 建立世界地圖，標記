@@ -1,0 +1,73 @@
+#標記一個國家
+from pygal.maps.world import COUNTRIES
+
+for i in sorted(COUNTRIES.keys()):
+    print("國家代碼 :", i, "國家名稱 = ",COUNTRIES[i])
+
+import pygal.maps.world
+world = pygal.maps.world.World()         #建立世界地圖的物件
+world.title = 'United States in the Map'         #世界地圖標題
+world.add('United States',['us'])                #產生標記圖示:美國
+world.render_to_file(r'C:\Users\yifun\Desktop\python_code\pic.svg')       #儲存地圖檔案
+
+
+-------------------------------------------------------------------------------------------------------------------
+#標記多個國家
+import pygal.maps.world
+world = pygal.maps.world.World()         #建立世界地圖的物件
+world.title = 'United States in the Map'         #世界地圖標題
+world.add('Asia',['cn','jp','tw','kp'])                #產生標記圖示:亞洲
+world.render_to_file(r'C:\Users\yifun\Desktop\python_code\pic.svg')       #儲存地圖檔案
+
+--------------------------------------------------------------------------------------------------------------------
+#標記四大洲
+import pygal.maps.world
+
+worldmap = pygal.maps.world.World()
+worldmap.title = 'Asia, Europe, Africa, and North America'
+worldmap.add('Asia',['cn','tw','jp','kp'])
+worldmap.add('Europe',['fr','de','it'])
+worldmap.add('Africa',['eg','ug','ng'])
+worldmap.add('North America',['ca','us','mx'])
+worldmap.render_to_file(r'C:\Users\yifun\Desktop\python_code\worldmap.svg')
+
+
+<若add()中改用dict方式，則是用國家代碼:數據去看
+worldmap.add('Asia',{'cn':10000000,'tw':99999999999999,'jp':2000,'kp':100})> 
+
+---------------------------------------------------------------------------------
+#繪製世界人口地圖
+import json
+import pygal.maps.world
+from pygal.maps.world import COUNTRIES
+
+def getCountryCode(countryName):                #過濾出是否相符
+    for code,name in COUNTRIES.items():
+        if name == countryName:
+            return code
+    return None
+
+fn = r'C:\Users\yifun\Desktop\讀者資源\ch1\populations.json'
+with open(fn) as ok:
+    getDatas = json.load(ok)
+
+dictData = {}
+for i in getDatas:
+    if i['Year'] == '2000':
+        countryName = i['Country Name']
+        countryCode = getCountryCode(countryName)
+        population = int(float(i["Numbers"]))
+        if countryCode != None:
+            dictData[countryCode] = population
+
+worldmap = pygal.maps.world.World()
+worldmap.title = 'Wprld Population in 2000'
+worldmap.add('Year 2000',dictData)
+worldmap.render_to_file(r'C:\Users\yifun\Desktop\python_code\world_population.svg')
+
+
+
+  
+
+
+
