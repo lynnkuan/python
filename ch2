@@ -10,4 +10,36 @@ with open(fn,'w',newline= '') as ccc:
     oo.writerow(['rose','31','Chicago'])
     
 ----------------------------------------------------------------------------
+繪製氣象圖表
+import csv
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+fn = r'C:\Users\yifun\Desktop\讀者資源\ch2\TaipeiWeatherJan.csv'
+
+with open(fn) as file:
+    csvReader = csv.reader(file)
+    headrow = next(csvReader)                # 讀取文件下一行
+    dates, highTemps, lowTemps = [],[],[]
+    for i in csvReader:
+        try:
+            currentDate = datetime.strptime(i[0],"%Y/%m/%d")
+            highTemp = int(i[1])
+            lowTemp = int(i[3])
+        except Exception:
+            print('有缺失值')
+        else:
+            highTemps.append(highTemp)
+            lowTemps.append(lowTemp)
+            dates.append(currentDate)
+fig = plt.figure(dpi=80,figsize=(12,8))        # 設定繪圖區大小
+plt.plot(dates,highTemps)
+plt.plot(dates,lowTemps)
+fig.autofmt_xdate()                             # 日期旋轉
+plt.title('Weather Report,2017')
+plt.xlabel("",fontsize = 14)
+plt.ylabel("Temperature (C)",fontsize = 14)
+plt.tick_params(axis='both', labelsize=12, color='red')
+plt.fill_between(dates,highTemps,lowTemps,color='y',alpha=0.2)   #使用透明度0.2的黃色去填滿區間
+plt.show()
 
