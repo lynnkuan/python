@@ -1,0 +1,13 @@
+#python中寫csv
+
+import csv
+
+fn = r'C:\Users\yifun\Desktop\讀者資源\ch2\練習在python中寫csv'
+with open(fn,'w',newline= '') as ccc:
+    oo = csv.writer(ccc)
+    oo.writerow(['Name','age','city'])
+    oo.writerow(['Curry',33,'Pingtung'])
+    oo.writerow(['rose','31','Chicago'])
+    
+----------------------------------------------------------------------------
+
