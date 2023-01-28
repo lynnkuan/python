@@ -92,3 +92,6 @@ sh = wb.sheets()[0]           #建立工作表物件
 rows = sh.nrows               #傳回工作表row數
 for i in range(rows):
     print(sh.row_values(i))   #row_values(rows) 讀取某列的數據
+
+
+
