@@ -1,0 +1,59 @@
+#自動開啟網頁
+
+import webbrowser
+
+address = input('請輸入地址')
+webbrowser.open('https://www.google.com.tw/maps/place/' + address)
+
+-------------------------------------------------------------------------------
+#requests使用
+
+import requests
+
+url = 'https://www.google.com.tw'  
+response = requests.get(url)              #requests.get()之後傳回的資料型態是Response物件
+print(type(response))
+
+if response.status_code == requests.codes.ok:
+    print('取得網頁成功')
+    print('網址訊息 :',response.url)
+    print('表頭訊息 :',response.headers)
+    print('cookie訊息 :',response.cookies)
+else:
+    print('取得網頁內容失敗')
+
+-------------------------------------------------------------------------------
+#選取某字，計算出現的次數
+
+import requests
+import re
+
+url = 'https://www.juksy.com/article/120091-NBA%EF%BC%8F%E5%8B%87%E5%A3%AB'
+response = requests.get(url)
+if response.status_code == requests.codes.ok:
+    pattern = input('輸入想輸入的文字:')   
+
+    if pattern in response.text:
+        print('搜尋 %s 成功' %pattern)
+    else:
+        print('沒有找到 %s'%pattern)
+    #計算出現次數
+    name = re.findall(pattern,response.text)
+    if name != None:
+        print('%s 出現 %d 次'%(pattern,len(name)))
+    else:
+        print('%s 出現0次' %pattern)
+else:
+    print('網頁下載失敗')
+
+
+
+
+
+
+
+
+
+
+
+
