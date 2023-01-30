@@ -46,11 +46,37 @@ if response.status_code == requests.codes.ok:
 else:
     print('網頁下載失敗')
 
+-------------------------------------------------------------------------------------
+#測試網頁下載是否成功
+import requests
+
+url = 'https//google.com.tw/Ooo'
+try:
+    response = requests.get(url)
+    response.raise_for_status()
+    print('下載成功')
+except Exception as err:
+    print('網頁下載失敗: %s'%err)
+print('程式結束')
 
 
+------------------------------------------------------------------------------------
+#爬蟲程式偽裝成瀏覽器
+import requests
+
+#先在前端加入表頭(headers)內容，是字典的形式，可以偽裝成瀏覽器，按F12去Network中找，複製貼上改成字典格式即可
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
+           AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 \
+          Safari/537.36'}
 
 
+url = 'https://www.kingstone.com.tw/basic/2015630743935/?zone=book&lid=home_act_prod2'
+response = requests.get(url,headers=headers)
+response.raise_for_status()
+print('偽裝瀏覽器擷取網路資料成功')
 
+
+------------------------------------------------------------------------------------j
 
 
 
