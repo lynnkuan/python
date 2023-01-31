@@ -92,6 +92,33 @@ print('下載:',response.status)           #下載狀況，如果回傳200則正
 print('表頭:')                           #取得表頭內容
 for i in response.getheaders():
     print(i)
+    
+   
+-------------------------------------------------------------------------------------
+#列印所拜訪網頁的HTML文件
+import urllib.request
+
+
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
+           AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 \
+          Safari/537.36'}
+
+
+url = 'https://www.kingstone.com.tw/basic/2015630743935/?zone=book&lid=home_act_prod2'
+req = urllib.request.Request(url,headers=headers)
+response = urllib.request.urlopen(req)
+print(response.read().decode('utf-8'))
+
+-------------------------------------------------------------------------------------
+#使用urllib.request模組的urlretrieve()下載圖片
+import urllib.request
+url_pict = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/TSMC-Logo.svg/330px-TSMC-Logo.svg.png'
+fn = 'TSMC.png'
+pict = urllib.request.urlretrieve(url_pict,fn)   #圖片檔將會下載到此程式碼所在的資料夾中
+
+
+-------------------------------------------------------------------------------------
+
 
 
 
