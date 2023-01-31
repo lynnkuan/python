@@ -76,7 +76,22 @@ response.raise_for_status()
 print('偽裝瀏覽器擷取網路資料成功')
 
 
-------------------------------------------------------------------------------------j
+------------------------------------------------------------------------------------
+# urllib模組使用
+import urllib.request
+
+url = 'https://google.com.tw'
+response = urllib.request.urlopen(url,timeout=20)    #獲取網頁HTTPResponse物件，並預設20秒，超時就跳出異常
+print(type(response))
+print(response)
+print(response.read().decode('big5'))  #讀取物件並轉成'big5'碼
+
+print('版本:',response.version)          #版本編號
+print('網址:',response.geturl())         #物件的網址
+print('下載:',response.status)           #下載狀況，如果回傳200則正常
+print('表頭:')                           #取得表頭內容
+for i in response.getheaders():
+    print(i)
 
 
 
