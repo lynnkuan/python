@@ -145,8 +145,44 @@ print('query = ',urp.query)
 print('fragment = ',urp.fragment)  #片段標示符號
 
 ----------------------------------------------------------------------------------------
+#URL合成
+from urllib import parse
+
+scheme = 'https'
+netloc =  'docs.python.org'
+path =  '/3/search.html'
+params = ''
+query =  'q=parse&check_keywords=yes&area=default'
+fragment = ''
+url_unparse = parse.urlunparse((scheme,netloc,path,params,query,fragment))   #反向工作
+print(url_unparse)
+
+url_unsplit = parse.urlunsplit((scheme,netloc,path,query,fragment))　　　　　　#反向工作
+print(url_unsplit)
 
 
+----------------------------------------------------------------------------------------
+#字典格式資料轉成網頁字串
+from urllib import parse
+
+url_python = 'https://docs.python.org/3/search.html?'
+
+query = {
+    'q':'parse',
+    'check_keywords':'yes',
+    'area':'default'
+    }
+url = url_python + parse.urlencode(query)
+print(url)
+
+-----------------------------------------------------------------------------------------
+from urllib import parse
+query_str = 'q=parse&check_keywords=yes&area=default'
+
+print('parse.parse_qs = ',parse.parse_qs(query_str))      #將網址查詢字串轉成字典
+print('parse.parse_qsl = ',parse.parse_qsl(query_str))    #將網址查詢字串轉成串列
+
+-----------------------------------------------------------------------------------------
 
 
 
