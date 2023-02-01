@@ -118,7 +118,33 @@ pict = urllib.request.urlretrieve(url_pict,fn)   #圖片檔將會下載到此程
 
 
 -------------------------------------------------------------------------------------
+#URL編碼與中文編碼轉換
 
+from urllib import parse
+
+s = '台灣積體電路製造'
+url_code = parse.quote(s)
+print('URL編碼 : ',url_code)      #quote()將中文轉成URL編碼
+code = parse.unquote(url_code)    #unquote()將URL編碼轉成中文
+print('中文編碼 : ',code)
+
+
+--------------------------------------------------------------------------------------
+#URL分析拆解
+from urllib import parse
+
+url = 'https://docs.python.org/3/search.html?q=parse&check_keywords=yes&area=default'
+urp = parse.urlparse(url)
+print(type(urp))
+print(urp)
+print('scheme = ',urp.scheme)      #URL所使用的方案
+print('netloc = ',urp.netloc)      #網路位置
+print('path = ',urp.path)          #分層路徑 
+print('params = ',urp.params)      #最後路徑元素參數
+print('query = ',urp.query) 
+print('fragment = ',urp.fragment)  #片段標示符號
+
+----------------------------------------------------------------------------------------
 
 
 
