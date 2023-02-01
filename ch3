@@ -183,7 +183,106 @@ print('parse.parse_qs = ',parse.parse_qs(query_str))      #將網址查詢字串
 print('parse.parse_qsl = ',parse.parse_qsl(query_str))    #將網址查詢字串轉成串列
 
 -----------------------------------------------------------------------------------------
+#異常處理
+from urllib import request,error
+
+header = {'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
+          AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0\
+          Safari/537.36"}
+
+#錯誤1
+url_error = 'https://24h.pchome.comm.tw/'             #錯誤網址
+try:
+    htmlfile = request.urlopen(url_error)
+except error.HTTPError as e:
+    print('錯誤代碼 : ',e.code)
+    print('錯誤原因 : ',e.reason)
+    print('回應表頭 : ',e.headers)
+except error.URLError as e:
+    print('錯誤原因 : ',e.reason)
+else:
+    print('擷取網路資料成功')
+
+#錯誤2
+url = 'https://24h.pchome.com.tw/' 
+try:
+    htmlfile = request.urlopen(url)
+except error.HTTPError as e:
+    print('錯誤代碼 : ',e.code)
+    print('錯誤原因 : ',e.reason)
+    print('回應表頭 : ',e.headers)
+except error.URLError as e:
+    print('錯誤原因 : ',e.reason)
+else:
+    print('擷取網路資料成功')
+
+#正確
+url = 'https://24h.pchome.com.tw/'                  #網址正確
+try:
+    req = request.Request(url,headers=header)
+    htmlfile = request.urlopen(req)
+except error.URLError as e:
+    print('錯誤原因 : ',e.reason)
+else:
+    print('網頁擷取成功')
+
+---------------------------------------------------------------------------------
+# HTTP回應
+import requests
+
+headers = {'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
+          AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0\
+          Safari/537.36"}
+
+url = 'https://www.httpbin.org/post'
+form_data = {'gender':'M','page':'1'}
+r = requests.post(url,json = form_data,headers= headers)
+print(r.url)
+
+print('r.request.headers : \n',r.request.headers)   
+
+print('r.headers : \n',r.headers)
+
+print(r.status_code)            #回應200，則是正常 
+print(r.reason)                 #正常回應是OK
+print(r.encoding)               #列出伺服器回應內文的編碼方式
+print(r.text)                   #獲得HTML內容
+
+--------------------------------------------------------------------------------------
+import requests
+
+url = r'https://www.httpbin.org/response-headers?freeform='
+r = requests.get(url)
+if r.status_code == 200:
+    print(r.headers.get('content-type'))
+    print(r.json())    #將json數據轉python
+
+#取得圖片並儲存
+url = r'https://www.httpbin.org/image/jpeg'
+r = requests.get(url)
+img = r.content
+
+fn = '3-7.jpg'
+with open(fn,'wb') as fout:
+    fout.write(img)
+-----------------------------------------------------------------------------------------
+#登入cookie
+import requests
+
+url = r'http://httpbin.org/cookies'
+cookies = dict(key1='value1')
+r = requests.get(url,cookies=cookies)
+print(r.text)
 
 
+---------------------------------------------------------------------------------------
+#設定代理IP
+import requests
 
+proxies = {'http':'http://85.45.92.167:8080'}
 
+r = requests.get('https://docs.python.org',proxies = proxies)
+if r.status_code == 200:
+    print('代理IP使用成功')
+    
+    
