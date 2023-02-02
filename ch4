@@ -53,5 +53,17 @@ citydf = pd.DataFrame(cities,columns=['town','population'],index=cities['country
 #將字典內某個元素當作index
 print(citydf)
 
+print(citydf.at['China','town'])      #取得指定的列、column  (只能單一元素or單一陣列)
+print(citydf.iat[2,1])              #iat，i(index)使用編號取得資料，印出第二列第一行 (單一)
+print(citydf.loc['Japan'])          #loc取得row是Japan的資料
+print(citydf.loc[['Japan','China']])
+print(citydf.loc['China':'Japan','town':'population'])    #印出兩個  (列:列,欄位:欄位) 資訊
+print(citydf.iloc[0])      #印出第一列資料
+
+# at 單數
+#loc 單數雙數都可以
+
+--------------------------------------------------------------------------
+
 
 
