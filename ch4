@@ -1,0 +1,57 @@
+#使用numpy的ndarray建立Series物件
+import pandas as pd
+import numpy as np
+
+s1 = pd.Series(np.arange(0,7,2))
+print(f"{s1}")
+
+#建立函索引的Series物件
+myindex = [3,5,7]
+price = [100,200,300]
+s2 = pd.Series(price,index=myindex)
+print(f"{s2}")
+
+s = pd.Series([30,50,60],index=['apple','banana','orange'])
+print(f"{s}")
+print(f"{s.values}")    #印出Series物件索引
+print(f"{s.index}")     #印出Series值
+
+---------------------------------------------------------------------
+# 使用Series建立DataFrame
+import pandas as pd
+years = range(2020,2023)
+a = pd.Series([11,12,13],index=years)
+b = pd.Series([14,15,16],index=years)
+c = pd.Series([17,18,19],index=years)
+total = pd.concat([a,b,c],axis=1)   #axis = 1是水平的，預設的axis=0是直的
+header = ['a','b','c']              #欄位名稱宣告
+total.columns = header              #設定欄位名稱進去DataFrame中
+print(type(total))
+print(total)
+
+----------------------------------------------------------------------
+import pandas as pd
+#使用元素是字典的串列建立DataFrame
+data = [{'apple':50,'Orange':30,'Grape':80},{'apple':40,'Grape':70}]
+fruits = pd.DataFrame(data)
+print(fruits)
+
+#使用字典建立DataFrame
+cities = {'country':['China','Japan','Singapore'],
+          'town':['Beijing','Tokyo','Singapore'],
+          'population':[2000,1600,600]}
+rowindex = ['first','second','third']           #定義列欄位名稱
+citydf = pd.DataFrame(cities,index=rowindex)
+print(citydf)
+
+---------------------------------------------------------------------
+#使用字典建立DataFrame
+cities = {'country':['China','Japan','Singapore'],
+          'town':['Beijing','Tokyo','Singapore'],
+          'population':[2000,1600,600]}
+citydf = pd.DataFrame(cities,columns=['town','population'],index=cities['country']) 
+#將字典內某個元素當作index
+print(citydf)
+
+
+
