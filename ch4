@@ -64,6 +64,25 @@ print(citydf.iloc[0])      #印出第一列資料
 #loc 單數雙數都可以
 
 --------------------------------------------------------------------------
+import pandas as pd
+import numpy as np
+df = pd.DataFrame([[1,2,3],[4,np.nan],[7,8,np.nan]])
+print(df.isna())   #印出是否為NA值
+print(df.notna())  #是否不是NA值
+print(df.fillna(3))  #將NA值用3去填補
+print(df.dropna(1)) #刪除NA值的行
+print(df.dropna(0)) #刪除NA值的列
+print(df.cumsum())
+
+cities = {'Population':[2000,3000,4000],
+          'country':['US','Taiwan','Japan'],
+          'town':['A','B','C']}
+f = pd.DataFrame(cities,columns=['Population','country'],index=cities['town'])
+print(f['Population'].cumsum())        #印出指定軸累積的總合
+print(f['Population'].cummax())        #印出指定軸累積的最大值
+print(f['Population'].cummin())        #印出指定軸累積的最小值
+
+
 
 
 
