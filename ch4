@@ -122,7 +122,69 @@ y = pd.read_csv('okk.csv',names=head)     #讀入csv檔，並用names來設定he
 print(x)
 print(y)
 
+-----------------------------------------------------------------------------------------------------
+import matplotlib.pyplot as plt
+import pandas as pd
 
+#使用Series繪製折線圖
+population = [860, 1100, 1450, 1800, 2020, 2200, 2260]
+tw = pd.Series(population, index=range(1950, 2011, 10))
+tw.plot(title='Population in Taiwan')
+plt.xlabel("Year")
+plt.ylabel("Population")
+plt.show()
+
+#使用DataFrame繪製折線圖
+cities = {'population':[1000,850,900,599,343,667],
+          'town':['New York','Chicago','Bangkok','Tokyo','Singapore','HongKong']}
+tww = pd.DataFrame(cities,columns=['population'],index=cities['town'])
+tww.plot(title='Population in the world')
+plt.xlabel('City')
+plt.ylabel('Population')
+plt.show()
+
+#直條圖
+tw.plot(title='Population in the world',kind='bar')
+plt.show()
+
+#一個圖表用兩筆資料去比較呈現
+cities = {'population':[1000, 850, 800, 1500, 600, 800],
+          'area':[400, 500, 850, 300, 200, 320],
+          'town':['New York','Chicago','Bangkok','Tokyo',
+                   'Singapore','HongKong']}
+tw = pd.DataFrame(cities, columns=['population','area'],index=cities['town'])
+          
+tw.plot(title='Population in the World')
+plt.xlabel('City')
+plt.show()
+
+#多個數值軸的設計
+cities = {'population':[10000000,8500000,8000000,15000000,6000000,8000000],
+          'area':[400, 500, 850, 300, 200, 320],
+          'town':['New York','Chicago','Bangkok','Tokyo',
+                   'Singapore','HongKong']}
+tw = pd.DataFrame(cities,columns=['population','area'],index=cities['town'])
+fig,ax = plt.subplots()        #fig是整體圖表物件，ax是第一個軸
+fig.suptitle('City Statistics')   #設定大標題
+ax.set_xlabel('City')            #X軸上標題
+ax.set_ylabel('Population')      #y軸上標題
+ax.ticklabel_format(style='plain')     #軸上數值不用科學記號表示
+
+ax2 = ax.twinx()                #建立第二個軸物件ax2
+ax2.set_ylabel('Area')          #第二物件軸名稱
+tw['population'].plot(ax=ax,rot=90)   #繪製人口數線
+tw['area'].plot(ax=ax2,style='g-')    #繪製面積圖
+ax.legend(loc=1)      #圖示位置標示在右上
+ax2.legend(loc=2)     #圖示位置標示左上 
+plt.show()
+
+
+#使用Series物件設計 圓餅圖
+fruits = ['Apples', 'Bananas', 'Grapes', 'Pears', 'Oranges']
+s = pd.Series([2300,5000,1200,2500,2900],index=fruits,name='Fruits Shop')
+explode = [0.4,0,0,0.2,0]     #設定是否從圓餅圖分離的串列，數值越大分離越遠,0為不分離
+s.plot.pie(explode = explode,autopct = '%1.2f%%')   #autopct表示項目的百分比
+plt.show()
 
 
 
