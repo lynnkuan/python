@@ -112,7 +112,15 @@ df.loc['Average'] = ave           #新增一個新的row，要用loc，名稱會
 print(df)
 print(df.drop(index=["Average"])) #刪除索引值
 
+df.to_csv('ok.csv')                                #將DataFrame寫成csv檔
+df.to_csv('okk.csv',header=False,index=False)      #將DataFrame寫成csv檔，但無索引值、無欄位名稱
 
+
+head = ['a','b','c','d','e']
+x = pd.read_csv('ok.csv',index_col=0)     #讀入csv檔，需用index_col來指定第幾欄去作為index值
+y = pd.read_csv('okk.csv',names=head)     #讀入csv檔，並用names來設定header欄位的名稱
+print(x)
+print(y)
 
 
 
