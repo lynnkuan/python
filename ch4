@@ -186,6 +186,7 @@ explode = [0.4,0,0,0.2,0]     #設定是否從圓餅圖分離的串列，數值�
 s.plot.pie(explode = explode,autopct = '%1.2f%%')   #autopct表示項目的百分比
 plt.show()
 
+--------------------------------------------------------------------------------------------
 
 from datetime import datetime,timedelta
 import pandas as pd
@@ -211,6 +212,42 @@ ts = pd.Series(data,index=dates)
 ts.plot(title='Data in Time Series')
 plt.xlabel('Date')
 plt.ylabel('Data')
-plt.show()------------------------------------------------------------------------
+plt.show()
 
+------------------------------------------------------------------------
+import requests
+
+url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+
+try:
+    htmlfile = requests.get(url)         #將檔案下載下來
+    print('下載成功')
+except Exception as err:
+    print('下載失敗')
+
+fn = 'iris.csv'
+with open(fn,'wb') as fileobj:                 #寫成csv檔 
+    for i in htmlfile.iter_content(10240):       #一次寫入10240位元組的資料
+        size = fileobj.write(i)
+        
+--------------------------------------------------------------------------------
+#匯入網頁表格資料
+import pandas as pd
+url = r'http://www.stockq.org/market/currency.php'
+currencys = pd.read_html(url)
+
+item = 0
+for i in currencys:             #利用迴圈找出我們所要的資料位置
+    print('元素: ',item)
+    print(i)
+    print()
+    item += 1
+
+#可知我們要的數據在元素索引7位置
+
+currency = currencys[7]
+currency = currency.drop(currency.index[[0,1]])   #將前兩列刪除
+currency.columns = ['貨幣','匯率','漲跌','比例','台北']    #建立欄位名稱
+currency.index = range(len(currency.index))               #建立索引值
+print(currency)
 
