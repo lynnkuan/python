@@ -187,5 +187,30 @@ s.plot.pie(explode = explode,autopct = '%1.2f%%')   #autopct表示項目的百�
 plt.show()
 
 
+from datetime import datetime,timedelta
+import pandas as pd
+import matplotlib.pyplot as plt
+
+#用datatime模組建立含時間戳的Series物件
+ndays = 5
+start = datetime(2023,2,22)
+dates = [start + timedelta(days=x) for x in range(0,ndays)]
+data = [34,44,65,53,59]
+ts = pd.Series(data,index=dates)
+print(type(ts))
+print(ts)
+
+print(ts.index)    #時間序列的索引
+
+#若時間的日期相同可以相加，不同日期相加則會產生NaN
+
+#繪製時間序列折線圖
+dates = pd.date_range('1/11/2023','1/15/2023')
+data = [20,13,34,43,34]
+ts = pd.Series(data,index=dates)
+ts.plot(title='Data in Time Series')
+plt.xlabel('Date')
+plt.ylabel('Data')
+plt.show()------------------------------------------------------------------------
 
 
