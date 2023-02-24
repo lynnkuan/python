@@ -1,0 +1,63 @@
+import bs4,requests
+
+response = open(r'C:\Users\yifun\Desktop\讀者資源\ch5\myhtml.html',encoding='utf-8')
+objSoup = bs4.BeautifulSoup(response,'lxml')
+print(type(objSoup)) 
+print(objSoup)     #印出html資料
+print(objSoup.title)
+print(objSoup.title.text)   #去除標籤傳回文字屬性
+
+tag = objSoup.find('h1')
+print(tag)      #找第一個h1所有的資訊
+print(tag.text) 
+print(tag.string)
+
+tag_all = objSoup.find_all('h1',limit = False)    #找所有標籤包含h1的資訊，limit可選擇要給予多少數量
+print(tag_all)
+for i in tag_all:                   #利用迴圈方式去印出所有去除標籤的文字
+    print(i.text)
+
+for i in tag_all:                   #利用迴圈方式去印出所有去除標籤的文字
+    print(i.getText())              #也可以使用getText()取得串列元素內容
+
+print(objSoup.find(id="author"))    #可根據HTML標籤屬性執行搜尋
+
+#含有特殊符號處理，用attrs去處理
+response = "<div book-info='deepmind'>深智數位</div>"
+obj = bs4.BeautifulSoup(response,'lxml')
+ta = obj.find(attrs={'book-info':"deepmind"})
+print(ta)
+print(ta.text)
+
+w = objSoup.select('#author')        #找尋所有<p>且id屬性為author的元素
+print(str(w[0].attrs))               #將attrs屬性應用在串列元素，得出自典形式
+
+img = objSoup.select('img')
+for i in img:
+    print('列印標籤串列 = ',i)
+    print('列印圖檔 = ',i.get('src'))    #這兩種方法都可取得標籤字串的src屬性內容
+    print('列印圖檔 = ',i['src'])        #這兩種方法都可取得標籤字串的src屬性內容
+    
+    
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
