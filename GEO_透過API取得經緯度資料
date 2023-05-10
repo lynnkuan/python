@@ -1,0 +1,22 @@
+import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+import matplotlib.pyplot as plot
+import requests,json
+df = pd.read_csv(r"C:\Users\yifun\Desktop\python\Library\Library.csv")
+
+def rest(address):
+    # YOUR_KEY is needed
+    # 範例API KAY: Bh5VwmNLww9G0Hv7sM3HnfOWL
+    url = 'https://api.tomtom.com/search/2/geocode/{}.json?&key=GVrAREGfZMP7AUgbjw5aBBQltcoZlvVC&countrySet=TWN&language=zh-TW&limit=1'.format(address)
+    response = requests.get(url)
+    data = response.text
+    js = json.loads(str(data))
+    return [js['results'][0]['position']['lon'],js['results'][0]['position']['lat']]
+
+geom=[Point(rest(row.address)) for idx, row in df.head(20).iterrows()]   #取得每一列的address並轉成座標
+crs = {'init': 'epsg:4326'} #4326, 3826
+gdf2 = gpd.GeoDataFrame(df.head(20), crs=crs, geometry=geom)   #採用crs所訂定的標準，並在geometry欄位中新增 轉好的座標資料進去
+print(gdf2)
+gdf2.plot()
+plot.show()
