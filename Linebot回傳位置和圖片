@@ -1,0 +1,149 @@
+from flask import Flask, request
+from linebot import LineBotApi, WebhookHandler
+from linebot.models import TextSendMessage, ImageSendMessage,LocationSendMessage
+import json
+
+app = Flask(__name__)
+
+
+@app.route("/", methods=['POST'])
+def linebot():
+    body = request.get_data(as_text=True)
+    json_data = json.loads(body)
+    print(json_data)
+    try:
+        line_bot_api = LineBotApi('MUEaA6kywfWSoYa0rEkMvr5OmMq5iagkNk+elcvBv+TK3cAu//xJee2o7JDdTCShqW7UQQuOX4P/uXWnDjPgj3SxrcEhBcKQ6hTyYbdMc+liAbm34LMRTaIyEaJdhdhsT9iyVyocJfv8j4RhelseWwdB04t89/1O/w1cDnyilFU=')
+        handler = WebhookHandler('fe3bd667b99b23536ef4e8343efa5302')
+        signature = request.headers['X-Line-Signature']
+        handler.handle(body, signature)
+        tk = json_data['events'][0]['replyToken']
+        msg = json_data['events'][0]['message']['text']
+        img_url = reply_img(msg)  # 取得對應的圖片，如果沒有取得，會是 False
+        location_info = reply_location(msg)  # 取得對應的地址，如果沒有取得，會是 False
+        if location_info:
+            # 如果有地點資訊，回傳地點
+            location_message = LocationSendMessage(
+                title=location_info['title'],
+                address=location_info['address'],
+                latitude=float(location_info['latitude']),
+                longitude=float(location_info['longitude'])
+            )
+            line_bot_api.reply_message(tk, location_message)
+        elif img_url:
+            # 如果有圖片網址，回傳圖片
+            img_message = ImageSendMessage(
+                original_content_url=img_url,
+                preview_image_url=img_url
+            )
+            line_bot_api.reply_message(tk, img_message)
+        else:
+            # 如果都沒有，回傳文字
+            text_message = TextSendMessage(text='找不到相關內容')
+            line_bot_api.reply_message(tk, text_message)
+    except:
+        print('error')
+    return 'OK'
+
+# 建立回覆圖片的函式
+def reply_img(text):
+    # 文字對應圖片網址的字典
+    img = {
+        '一般垃圾':'https://down-tw.img.susercontent.com/file/e790674054cfc3fba672c457e2ba159c',
+        '紙類':'https://cf.shopee.tw/file/ba1f82987531c905c007f905a32bd412',
+        '紙容器':'https://cf.shopee.tw/file/d8d985e3935bae46edebc252a1a46950',
+        '塑膠':'https://image1.thenewslens.com/2017/8/xw5rb10op8d4ys399eyy8hffua6y1p.jpg?auto=compress&q=80&w=1080',
+        '鐵鋁':'https://www.kdmanpower.com.tw/upload/images/%E7%B5%84%E5%90%88%201_%E9%A0%81%E9%9D%A2_15.png',
+        '玻璃':'https://cf.shopee.tw/file/a3ede2a7bf9ad480634bef0bddd04a20'
+    }
+    if text in img:
+        return img[text]
+    else:
+      # 如果找不到對應的圖片，回傳 False
+        return False
+
+# 建立回覆地點的函式
+def reply_location(text):
+    # 建立地點與文字對應的字典
+    location = {
+        '萬華區': {
+            'title': '萬華區',
+            'address': '臺北市萬華區長順街臨131號',
+            'latitude': '25.031347',
+            'longitude': '121.490747'
+        },
+        '內湖區': {
+            'title': '內湖區',
+            'address': '臺北市內湖區舊宗路二段臨158號',
+            'latitude': '25.0700469999999',
+            'longitude': '121.574785'
+        },
+        '北投區': {
+            'title': '北投區',
+            'address': '臺北市北投區大度路三段臨250號',
+            'latitude': '25.1234082',
+            'longitude': '121.4669281'
+        },
+        '士林區': {
+            'title': '士林區',
+            'address': '臺北市士林區中正路臨692號對面',
+            'latitude': '25.0864',
+            'longitude': '121.5066'
+        },
+        '中山區': {
+            'title': '中山區',
+            'address': '臺北市中山區建國北路一段臨5-1號',
+            'latitude': '25.046412',
+            'longitude': '121.537031'
+        },
+        '松山區': {
+            'title': '松山區',
+            'address': '臺北市松山區民權東路五段臨94號',
+            'latitude': '25.06316899999',
+            'longitude': '121.56739899999'
+        },
+        '大同區': {
+            'title': '大同區',
+            'address': '臺北市大同區環河北路一段63號之1',
+            'latitude': '25.052557',
+            'longitude': '121.507442'
+        },
+        '中正區': {
+            'title': '中正區',
+            'address': '臺北市中正區師大路臨241號',
+            'latitude': '25.0209417',
+            'longitude': '121.5253309'
+        },
+        '大安區': {
+            'title': '大安區',
+            'address': '臺北市大安區通化街120巷20之1號旁',
+            'latitude': '25.0293959999',
+            'longitude': '121.55325'
+        },
+        '信義區': {
+            'title': '信義區',
+            'address': '臺北市信義區忠孝東路五段275巷7弄邊',
+            'latitude': '25.0413',
+            'longitude': '121.5703'
+        },
+        '文山區': {
+            'title': '文山區',
+            'address': '臺北市文山區景豐街臨82號',
+            'latitude': '25.001258',
+            'longitude': '121.545115999999'
+        },
+        '南港區': {
+            'title': '南港區',
+            'address': '臺北市南港區松河街699號',
+            'latitude': '25.058671',
+            'longitude': '121.596766'
+        }
+    }
+    if text in location:
+        return location[text]
+    else:
+        # 如果找不到對應的地點，回傳 False
+        return False
+
+    
+if __name__ == "__main__":
+    app.run()
